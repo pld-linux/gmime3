@@ -1,42 +1,31 @@
-#
-# Conditional build:
-%bcond_without	dotnet	# without .NET support
-
-%ifarch i386 x32
-%undefine	with_dotnet
-%endif
-
-%{?with_dotnet:%include	/usr/lib/rpm/macros.mono}
 Summary:	GMIME library
 Summary(pl.UTF-8):	Biblioteka GMIME
-Name:		gmime
-Version:	2.6.23
+Name:		gmime3
+Version:	3.0.1
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gmime/2.6/%{name}-%{version}.tar.xz
-# Source0-md5:	247072236d84bd0fbbff299d69bdf333
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gmime/3.0/gmime-%{version}.tar.xz
+# Source0-md5:	da040083104dfe016ea89ec5a4896e35
 Patch0:		%{name}-link.patch
 Patch1:		%{name}-am.patch
 URL:		http://spruce.sourceforge.net/gmime/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake >= 1:1.9
+BuildRequires:	docbook-utils
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.18.0
+BuildRequires:	glib2-devel >= 1:2.32.0
 BuildRequires:	gobject-introspection-devel >= 1.30.0
-BuildRequires:	gpgme-devel >= 1:1.1.6
+BuildRequires:	gpgme-devel >= 1:1.2.0
 BuildRequires:	gtk-doc >= 1.8
+BuildRequires:	libidn-devel
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 BuildRequires:	zlib-devel
-%if %{with dotnet}
-BuildRequires:	dotnet-gtk-sharp2-devel >= 2.9.0
-BuildRequires:	mono-csharp >= 1.1.16.1
-%endif
-Requires:	glib2 >= 1:2.18.0
-Requires:	gpgme >= 1:1.1.6
+Requires:	glib2 >= 1:2.32.0
+Requires:	gpgme >= 1:1.2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -50,8 +39,9 @@ Summary:	Header files to develop libgmime applications
 Summary(pl.UTF-8):	Pliki nagłówkowe do tworzenia programów z użyciem libgmime
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.18.0
-Requires:	gpgme-devel >= 1:1.1.6
+Requires:	glib2-devel >= 1:2.32.0
+Requires:	gpgme-devel >= 1:1.2.0
+Requires:	libidn-devel
 Requires:	zlib-devel
 
 %description devel
@@ -87,33 +77,7 @@ gmime library API documentation.
 %description apidocs -l pl.UTF-8
 Dokumentacja API biblioteki gmime.
 
-%package -n dotnet-gmime-sharp
-Summary:	.NET language bindings for gmime
-Summary(pl.UTF-8):	Wiązania gmime dla .NET
-Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
-Requires:	dotnet-gtk-sharp2 >= 2.9.0
-Requires:	mono >= 1.1.16.1
-
-%description -n dotnet-gmime-sharp
-.NET language bindings for gmime
-
-%description -n dotnet-gmime-sharp -l pl.UTF-8
-Wiązania gmime dla .NET
-
-%package -n dotnet-gmime-sharp-devel
-Summary:	Development part of dotnet-gmime-sharp
-Summary(pl.UTF-8):	Część dla programistów dotnet-gmime-sharp
-Group:		Development/Libraries
-Requires:	dotnet-%{name}-sharp = %{version}-%{release}
-
-%description -n dotnet-gmime-sharp-devel
-Development part of dotnet-gmime-sharp.
-
-%description -n dotnet-gmime-sharp-devel -l pl.UTF-8
-Część dla programistów dotnet-gmime-sharp.
-
-%package -n vala-gmime
+%package -n vala-gmime3
 Summary:	Vala API for gmime library
 Summary(pl.UTF-8):	API języka Vala do biblioteki gmime
 Group:		Development/Languages
@@ -123,14 +87,14 @@ Requires:	vala
 BuildArch:	noarch
 %endif
 
-%description -n vala-gmime
+%description -n vala-gmime3
 Vala API for gmime library.
 
-%description -n vala-gmime -l pl.UTF-8
+%description -n vala-gmime3 -l pl.UTF-8
 API języka Vala do biblioteki gmime.
 
 %prep
-%setup -q
+%setup -q -n gmime-%{version}
 %patch0 -p1
 %patch1 -p1
 
@@ -142,9 +106,7 @@ API języka Vala do biblioteki gmime.
 %{__automake}
 %configure \
 	--enable-largefile \
-	--enable-mono%{!?with_dotnet:=no} \
 	--disable-silent-rules \
-	--enable-smime \
 	--with-html-dir=%{_gtkdocdir}
 
 %{__make}
@@ -157,7 +119,7 @@ rm -rf $RPM_BUILD_ROOT
 	HTML_DIR=%{_gtkdocdir}
 
 # obsoleted by pkg-config
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libgmime-2.6.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libgmime-3.0.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -167,40 +129,28 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog README TODO
-%attr(755,root,root) %{_libdir}/libgmime-2.6.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libgmime-2.6.so.0
-%{_libdir}/girepository-1.0/GMime-2.6.typelib
+%doc AUTHORS README TODO
+%attr(755,root,root) %{_libdir}/libgmime-3.0.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libgmime-3.0.so.0
+%{_libdir}/girepository-1.0/GMime-3.0.typelib
 
 %files devel
 %defattr(644,root,root,755)
 %doc PORTING
-%attr(755,root,root) %{_libdir}/libgmime-2.6.so
-%{_includedir}/gmime-2.6
-%{_datadir}/gir-1.0/GMime-2.6.gir
-%{_pkgconfigdir}/gmime-2.6.pc
+%attr(755,root,root) %{_libdir}/libgmime-3.0.so
+%{_includedir}/gmime-3.0
+%{_datadir}/gir-1.0/GMime-3.0.gir
+%{_pkgconfigdir}/gmime-3.0.pc
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/libgmime-2.6.a
+%{_libdir}/libgmime-3.0.a
 
 %files apidocs
 %defattr(644,root,root,755)
-%{_gtkdocdir}/gmime-2.6
+%{_gtkdocdir}/gmime-3.0
 
-%if %{with dotnet}
-%files -n dotnet-gmime-sharp
+%files -n vala-gmime3
 %defattr(644,root,root,755)
-%{_prefix}/lib/mono/gac/gmime-sharp
-
-%files -n dotnet-gmime-sharp-devel
-%defattr(644,root,root,755)
-%{_prefix}/lib/mono/gmime-sharp-2.6
-%{_datadir}/gapi-2.0/gmime-api.xml
-%{_pkgconfigdir}/gmime-sharp-2.6.pc
-%endif
-
-%files -n vala-gmime
-%defattr(644,root,root,755)
-%{_datadir}/vala/vapi/gmime-2.6.deps
-%{_datadir}/vala/vapi/gmime-2.6.vapi
+%{_datadir}/vala/vapi/gmime-3.0.deps
+%{_datadir}/vala/vapi/gmime-3.0.vapi
