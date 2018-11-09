@@ -1,14 +1,15 @@
 Summary:	GMIME library
 Summary(pl.UTF-8):	Biblioteka GMIME
 Name:		gmime3
-Version:	3.0.5
+Version:	3.2.2
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gmime/3.0/gmime-%{version}.tar.xz
-# Source0-md5:	3a281d0b9487fa3281cb776daeca50c3
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gmime/3.2/gmime-%{version}.tar.xz
+# Source0-md5:	1188d71c9567375b20b9632a0ed85d3f
 Patch0:		%{name}-link.patch
 Patch1:		%{name}-am.patch
+Patch2:		%{name}-missing.patch
 URL:		http://spruce.sourceforge.net/gmime/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake >= 1:1.9
@@ -16,16 +17,16 @@ BuildRequires:	docbook-utils
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.32.0
 BuildRequires:	gobject-introspection-devel >= 1.30.0
-BuildRequires:	gpgme-devel >= 1:1.2.0
+BuildRequires:	gpgme-devel >= 1:1.6.0
 BuildRequires:	gtk-doc >= 1.8
-BuildRequires:	libidn-devel
+BuildRequires:	libidn2-devel >= 2.0.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 BuildRequires:	zlib-devel
 Requires:	glib2 >= 1:2.32.0
-Requires:	gpgme >= 1:1.2.0
+Requires:	gpgme >= 1:1.6.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -40,8 +41,8 @@ Summary(pl.UTF-8):	Pliki nagłówkowe do tworzenia programów z użyciem libgmim
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.32.0
-Requires:	gpgme-devel >= 1:1.2.0
-Requires:	libidn-devel
+Requires:	gpgme-devel >= 1:1.6.0
+Requires:	libidn2-devel >= 2.0.0
 Requires:	zlib-devel
 
 %description devel
@@ -97,6 +98,7 @@ API języka Vala do biblioteki gmime.
 %setup -q -n gmime-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__libtoolize}
@@ -148,7 +150,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files apidocs
 %defattr(644,root,root,755)
-%{_gtkdocdir}/gmime-3.0
+%{_gtkdocdir}/gmime-3.2
 
 %files -n vala-gmime3
 %defattr(644,root,root,755)

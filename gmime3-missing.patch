@@ -1,0 +1,24 @@
+--- gmime-3.2.2/gmime/GMime-3.0.metadata.orig	1970-01-01 01:00:00.000000000 +0100
++++ gmime-3.2.2/gmime/GMime-3.0.metadata	2018-11-09 16:02:18.896575720 +0100
+@@ -0,0 +1,21 @@
++InternetAddress
++  .to_string#method name="to_new_string"
++References struct=false
++
++// G-I can't handle non-boxed types
++PartIter struct=false
++
++// G-I doesn't allow non-nullable return values (bug #660879)
++Message
++  .get_mime_part nullable
++Object
++  .get_content_type_parameter nullable
++Parser
++  .construct_message nullable
++
++// G-I doesn't support annotations on fields (bug #561619)
++Filter
++  .backbuf type="uint8[]" array_length_field="backsize"
++  .outreal type="uint8[]"
++	.outbuf type="unowned uint8[]" array_length_field="outsize"
++  .outptr type="unowned uint8[]"
