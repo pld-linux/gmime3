@@ -1,12 +1,12 @@
 Summary:	GMIME library
 Summary(pl.UTF-8):	Biblioteka GMIME
 Name:		gmime3
-Version:	3.2.3
-Release:	6
+Version:	3.2.4
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gmime/3.2/gmime-%{version}.tar.xz
-# Source0-md5:	69ae21a0b1df966a7d39a9431856ac81
+# Source0-md5:	b6b4e9fdc8f3336551d23872c83b539a
 Patch0:		%{name}-link.patch
 Patch1:		%{name}-am.patch
 URL:		http://spruce.sourceforge.net/gmime/
