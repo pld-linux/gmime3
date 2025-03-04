@@ -1,15 +1,16 @@
 Summary:	GMIME library
 Summary(pl.UTF-8):	Biblioteka GMIME
 Name:		gmime3
-Version:	3.2.6
+Version:	3.2.7
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gmime/3.2/gmime-%{version}.tar.xz
-# Source0-md5:	656548dc431004d1ebf95e5d0bb4b9c8
+Source0:	https://download.gnome.org/sources/gmime/3.2/gmime-%{version}.tar.xz
+# Source0-md5:	7ecd9aa75e0cd2e8668206b1d53df874
 Patch0:		%{name}-link.patch
 Patch1:		%{name}-am.patch
-URL:		http://spruce.sourceforge.net/gmime/
+Patch2:		%{name}-largefile.patch
+URL:		https://github.com/jstedfast/gmime
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	docbook-utils
@@ -91,8 +92,9 @@ API języka Vala do biblioteki gmime.
 
 %prep
 %setup -q -n gmime-%{version}
-%patch0 -p1
-%patch1 -p1
+%patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p1
 
 %build
 %{__libtoolize}
