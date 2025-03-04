@@ -1,32 +1,30 @@
 Summary:	GMIME library
 Summary(pl.UTF-8):	Biblioteka GMIME
 Name:		gmime3
-Version:	3.2.7
+Version:	3.2.15
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
-Source0:	https://download.gnome.org/sources/gmime/3.2/gmime-%{version}.tar.xz
-# Source0-md5:	7ecd9aa75e0cd2e8668206b1d53df874
-Patch0:		%{name}-link.patch
-Patch1:		%{name}-am.patch
-Patch2:		%{name}-largefile.patch
+#Source0Download: https://github.com/jstedfast/gmime/releases
+Source0:	https://github.com/jstedfast/gmime/releases/download/%{version}/gmime-%{version}.tar.xz
+# Source0-md5:	f7d6b4ad3253e73c72237fde5bced617
 URL:		https://github.com/jstedfast/gmime
-BuildRequires:	autoconf >= 2.54
+BuildRequires:	autoconf >= 2.71
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	docbook-utils
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.32.0
+BuildRequires:	glib2-devel >= 1:2.68
 BuildRequires:	gobject-introspection-devel >= 1.30.0
 BuildRequires:	gpgme-devel >= 1:1.6.0
 BuildRequires:	gtk-doc >= 1.8
 BuildRequires:	libidn2-devel >= 2.0.0
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:2
 BuildRequires:	pkgconfig
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 BuildRequires:	zlib-devel
-Requires:	glib2 >= 1:2.32.0
+Requires:	glib2 >= 1:2.68
 Requires:	gpgme >= 1:1.6.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -41,7 +39,7 @@ Summary:	Header files to develop libgmime applications
 Summary(pl.UTF-8):	Pliki nagłówkowe do tworzenia programów z użyciem libgmime
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.32.0
+Requires:	glib2-devel >= 1:2.68
 Requires:	gpgme-devel >= 1:1.6.0
 Requires:	libidn2-devel >= 2.0.0
 Requires:	zlib-devel
@@ -93,9 +91,6 @@ API języka Vala do biblioteki gmime.
 
 %prep
 %setup -q -n gmime-%{version}
-%patch -P0 -p1
-%patch -P1 -p1
-%patch -P2 -p1
 
 %build
 %{__libtoolize}
