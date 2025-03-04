@@ -1,0 +1,15 @@
+--- gmime-3.2.7/configure.ac.orig	2025-03-03 21:27:25.380962782 +0100
++++ gmime-3.2.7/configure.ac	2025-03-04 17:36:32.177943048 +0100
+@@ -458,9 +458,11 @@ if test "x$enable_largefile" != "xno"; t
+         enable_largefile="yes"
+     fi
+     
+-    if test "x$ac_cv_sys_file_offset_bits" != "xno"; then
++    if test "x$ac_cv_sys_file_offset_bits" != "xno" && test -n "$ac_cv_sys_file_offset_bits"; then
+         LFS_CFLAGS="$LFS_CFLAGS -D_FILE_OFFSET_BITS=$ac_cv_sys_file_offset_bits"
+         enable_largefile="yes"
++    elif test -n "$ac_cv_sys_largefile_opts"; then
++        LFS_CFLAGS="$LFS_CFLAGS $ac_cv_sys_largefile_opts"
+     fi
+ else
+     LFS_CFLAGS=""
